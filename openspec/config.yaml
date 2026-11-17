@@ -1,0 +1,91 @@
+schema: spec-driven
+
+# ---------------------------------------------------------------------------
+# Project context
+# Only constraints an agent cannot infer by reading the code.
+# ---------------------------------------------------------------------------
+context: |
+  qskill is not an application. Its deliverable is a set of agent skills
+  (SKILL.md packages) that teach an AI agent to program quantum projects.
+
+  Repository layout
+  - Skills live in `.agents/skills/<skill-name>/` and follow `docs/conventions.md`.
+  - Shared tooling lives in `scripts/`; eval cases live in `evals/cases/<skill>/`.
+  - The staged plan, and the current stage, are tracked in `docs/roadmap.md`.
+
+  Technical baseline
+  - Python 3.12 managed with uv; SDK versions are pinned in `pyproject.toml`.
+  - Target frameworks are Qiskit (primary, stage 1), then PennyLane and Cirq
+    (stage 3).
+  - Every Python block inside a SKILL.md is executable. No pseudocode in code
+    fences.
+  - Tests and evals never require network access, credentials or real hardware
+    jobs; use mocks and dry-run providers.
+
+  Conventions
+  - Skill content (SKILL.md, references) is written in English.
+  - SKILL.md stays at or below 500 lines; detail goes into `references/`.
+  - Skill descriptions must be mutually exclusive so routing is deterministic.
+  - Framework skills own API syntax; stage skills own strategy. Knowledge is not
+    duplicated across skills: the stage skill states it and framework skills
+    link to it.
+
+  Scope discipline
+  - One OpenSpec change per roadmap stage. Do not mix stages in one change.
+  - Do not add frameworks, hardware providers, algorithms or eval infrastructure
+    outside the current stage without asking first.
+
+rules:
+  proposal:
+    - Name the roadmap stage from docs/roadmap.md that this change belongs to,
+      and list the skills it creates or modifies.
+    - State explicitly what is out of scope, including frameworks and eval cases
+      deferred to later stages.
+    - Keep it under 500 words.
+    - Copy the acceptance criteria of that stage from the roadmap.
+
+  specs:
+    - Use one capability per skill or cross-cutting concern, named in kebab-case,
+      for example `framework-qiskit` or `circuit-validation`.
+    - Requirements use SHALL and describe observable agent behaviour, not the
+      internal structure of the skill files.
+    - Every requirement has at least one scenario. Routing requirements use
+      Given/When/Then with a concrete user request.
+    - State the SDK version range that each framework capability targets.
+    - Reference the eval case ids that verify the requirement.
+
+  design:
+    - Document the skill boundary, meaning what the skill owns and what it
+      delegates.
+    - Include the exact `description` frontmatter proposed for each new skill.
+    - Include the eval plan, with case ids, what each check asserts, and the
+      pass threshold.
+    - Justify any new dependency or version pin, including why that version.
+    - Record the alternative split considered and why the chosen one wins.
+
+  tasks:
+    - Group tasks by stage deliverable, covering harness, skill, references,
+      evals and docs.
+    - Each task is independently verifiable in 2 hours or less.
+    - Every skill task is paired with a validation task covering lint, snippets
+      and evals for that skill.
+    - Mark human-only actions (credentials, real hardware, provider signup)
+      explicitly as manual.
+
+operations:
+  apply:
+    guidance:
+      - Read `docs/conventions.md` and the target skill before editing.
+      - After each skill change run `python scripts/skill_lint.py` and
+        `python scripts/run_snippets.py` for that skill.
+      - Run the eval cases of any skill whose behaviour changed and report the
+        pass rate.
+      - Never introduce network calls, credentials or hardware jobs into
+        automated tests.
+      - Stop and report if a stage acceptance criterion cannot be met instead of
+        relaxing it.
+  archive:
+    guidance:
+      - Confirm every capability in the change maps to a real skill directory.
+      - Update the stage status in `docs/roadmap.md` before archiving.
+      - Summarize the archived outcome and the eval pass rate.
