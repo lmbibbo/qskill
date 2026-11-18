@@ -1,0 +1,20 @@
+id: fixture-eval-fail
+skill: fixture-skill
+prompt: |
+  Produce a response that violates every check.
+response: |
+  This answer contains TRACEBACK and the value 1.25.
+
+  ```python
+  raise RuntimeError("deliberate eval failure")
+  ```
+checks:
+  - kind: required_patterns
+    patterns: ["missing token"]
+  - kind: forbidden_patterns
+    patterns: ["TRACEBACK"]
+  - kind: numeric_close
+    target: 0.5
+    tolerance: 0.05
+    pattern: "value ([0-9.]+)"
+  - kind: snippet_runs

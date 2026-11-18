@@ -1,0 +1,20 @@
+id: fixture-eval-pass
+skill: fixture-skill
+prompt: |
+  Report the value 0.5 and include a runnable snippet.
+response: |
+  The measured value is 0.50.
+
+  ```python
+  print("snippet ran")
+  ```
+checks:
+  - kind: required_patterns
+    patterns: ["measured value"]
+  - kind: forbidden_patterns
+    patterns: ["traceback"]
+  - kind: numeric_close
+    target: 0.5
+    tolerance: 0.05
+    pattern: "measured value is ([0-9]+\\.?[0-9]*)"
+  - kind: snippet_runs

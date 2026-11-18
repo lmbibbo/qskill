@@ -1,9 +1,9 @@
 # qskill — Plan de ejecución por etapas
 
 > Suite de skills de agente para programar proyectos cuánticos multi-framework.
-> Repo: `C:\Users\palob\Program\qskill` · OpenSpec inicializado · 0 changes · 0 specs
+> Repo: `C:\Users\palob\Program\qskill` · OpenSpec inicializado · 0 changes activos · 1 spec
 > Fecha base: 2026-11-17
-> Estado: **propuesta, pendiente de aprobación de supuestos (§1)**
+> Estado: **Etapa 0 cerrada** — change `skill-foundation` archivado el 2026-11-18 · siguiente: Etapa 1
 
 ---
 
