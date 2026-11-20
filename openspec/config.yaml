@@ -45,8 +45,8 @@ rules:
     - Copy the acceptance criteria of that stage from the roadmap.
 
   specs:
-    - Use one capability per skill or cross-cutting concern, named in kebab-case,
-      for example `framework-qiskit` or `circuit-validation`.
+    - Use one capability per skill or cross-cutting concern, named in
+      kebab-case, for example `framework-qiskit` or `circuit-validation`.
     - Requirements use SHALL and describe observable agent behaviour, not the
       internal structure of the skill files.
     - Every requirement has at least one scenario. Routing requirements use
@@ -76,8 +76,8 @@ operations:
   apply:
     guidance:
       - Read `docs/conventions.md` and the target skill before editing.
-      - After each skill change run `python scripts/skill_lint.py` and
-        `python scripts/run_snippets.py` for that skill.
+      - After each skill change run `python scripts/skill_lint.py` and `python
+        scripts/run_snippets.py` for that skill.
       - Run the eval cases of any skill whose behaviour changed and report the
         pass rate.
       - Never introduce network calls, credentials or hardware jobs into
@@ -89,3 +89,4 @@ operations:
       - Confirm every capability in the change maps to a real skill directory.
       - Update the stage status in `docs/roadmap.md` before archiving.
       - Summarize the archived outcome and the eval pass rate.
+skillsScope: project
